@@ -17,7 +17,7 @@ API.interceptors.response.use(
 
     if (err.response?.status === 401 && !isLoginRequest) {
       localStorage.removeItem('token');
-      window.location.href = '/login';
+      window.location.reload();
     }
 
     return Promise.reject(err);

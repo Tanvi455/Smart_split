@@ -18,12 +18,13 @@ export default function Login() {
     finally { setLoading(false); }
   };
 
-  const demoLogin = async () => {
+ {/*const demoLogin = async () => {
     setError(''); setLoading(true);
     try { await login('alice@demo.com', 'password123'); navigate('/'); }
     catch { setError('Demo login failed — make sure the backend is running and seeded.'); }
     finally { setLoading(false); }
   };
+  */}
 
   return (
     <div className="auth-page">
@@ -49,10 +50,12 @@ export default function Login() {
               {loading ? <><div className="spinner" style={{width:16,height:16,borderWidth:2}} /> Signing in…</> : 'Sign In'}
             </button>
           </form>
+          {/* demo login button was removed for security reasons, but you can easily add it back by uncommenting the following lines://
           <button className="btn btn-ghost" style={{ width:'100%', marginTop:10 }}
             onClick={demoLogin} disabled={loading}>
             Try Demo Account
           </button>
+          */}
         </div>
         <div className="auth-footer">
           Don't have an account? <Link to="/register">Sign up</Link>

@@ -1,14 +1,13 @@
 // Run once to populate MongoDB with demo data:
 //   node src/seed.js
-
+const bcrypt = require('bcryptjs');
 require('dotenv').config();
 const mongoose = require('mongoose');
 const User     = require('./models/User');
 const Group    = require('./models/Group');
 const Expense  = require('./models/Expense');
 
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/splitsmart';
-
+const MONGO_URI = "mongodb://kiranuser:Kiran123@ac-kmyoht0-shard-00-00.rrsr0gq.mongodb.net:27017,ac-kmyoht0-shard-00-01.rrsr0gq.mongodb.net:27017,ac-kmyoht0-shard-00-02.rrsr0gq.mongodb.net:27017/splitsmart?ssl=true&replicaSet=atlas-qgxt8l-shard-0&authSource=admin&retryWrites=true&w=majority";
 async function seed() {
   await mongoose.connect(MONGO_URI);
   console.log('Connected to MongoDB');
@@ -18,12 +17,14 @@ async function seed() {
   console.log('Cleared existing data');
 
   // Create users (passwords hashed automatically by pre-save hook)
-  const [alice, bob, carol, dev] = await User.create([
-    { name: 'Alice Kumar',  email: 'alice@demo.com', password: 'password123' },
-    { name: 'Bob Sharma',   email: 'bob@demo.com',   password: 'password123' },
-    { name: 'Carol Mehta',  email: 'carol@demo.com', password: 'password123' },
-    { name: 'Dev Patel',    email: 'dev@demo.com',   password: 'password123' }
-  ]);
+  const hashedPassword = await bcrypt.hash('password123', 10);
+
+const [alice, bob, carol, dev] = await User.create([
+  { name: 'Alice Kumar',  email: 'alice@demo.com', password: hashedPassword },
+  { name: 'Bob Sharma',   email: 'bob@demo.com',   password: hashedPassword },
+  { name: 'Carol Mehta',  email: 'carol@demo.com', password: hashedPassword },
+  { name: 'Dev Patel',    email: 'dev@demo.com',   password: hashedPassword }
+]);
   console.log('Created 4 demo users');
 
   // Create groups
